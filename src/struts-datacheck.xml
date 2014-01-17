@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="support-datacheck" namespace="/datacheck"
+		extends="support-default">
+
+		<!-- 定义拦截器 （控制session登录访问）-->
+		
+			<interceptors> <interceptor name="validateDatacheck"
+			class="com.yancy.support.action.datacheck.ValidateAdminLoginInterceptor"></interceptor>
+			<interceptor-stack name="datacheckStack"> <interceptor-ref
+			name="validateDatacheck"></interceptor-ref> <interceptor-ref
+			name="defaultStack"></interceptor-ref> </interceptor-stack>
+			</interceptors> <default-interceptor-ref
+			name="datacheckStack"></default-interceptor-ref>
+		
+		<!-- 定义拦截器 （控制session登录访问）结束-->
+		
+		
+		<action name="login" class="com.yancy.support.action.datacheck.LoginAction">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/datacheck</param>
+				<param name="actionName">index</param>
+			</result>
+			<!-- 局部跳转优先于全局跳转 -->
+			<result name="error">/datacheck/login.jsp</result>
+			<!-- 声明式异常处理(局部) -->
+			<exception-mapping result="error" exception="com.yancy.support.exception.LoginFailException"></exception-mapping>
+		</action>
+		
+		
+		<action name="module" class="com.yancy.support.action.datacheck.ModuleAction">
+			<result name="success">
+				/datacheck/module.jsp
+			</result>
+
+		</action>
+		
+		<action name="getScope"
+			class="com.yancy.support.action.datacheck.GetScopeAction">
+			<result name="success">/datacheck/manual.jsp</result>
+			<result name="weibo">/datacheck/weibo_manual.jsp</result>
+		</action>
+		<action name="dashboard"
+			class="com.yancy.support.action.datacheck.DashboardAction">
+			<result name="success">/datacheck/dashboard.jsp</result>
+		</action>
+		<action name="analytics"
+			class="com.yancy.support.action.datacheck.AnalyticsAction">
+			<result name="success">/datacheck/analytics.jsp</result>
+		</action>
+		<action name="threads" class="com.yancy.support.action.datacheck.ThreadsAction">
+			<result name="success">/datacheck/thread.jsp</result>
+		</action>
+		<action name="weiboanalytics"
+			class="com.yancy.support.action.datacheck.WeiboAnalyticsAction">
+			<result name="success">/datacheck/weiboanalytics.jsp</result>
+		</action>
+		<action name="weibodashboard"
+			class="com.yancy.support.action.datacheck.WeiboDashboardAction">
+			<result name="success">/datacheck/weibodashboard.jsp</result>
+		</action>
+		<action name="weibothreads"
+			class="com.yancy.support.action.datacheck.WeiboThreadsAction">
+			<result name="success">/datacheck/weibothreads.jsp</result>
+		</action>
+		
+		<action name="fileProcess"
+			class="com.yancy.support.action.datacheck.FileProcessAction">
+			<result name="success">/datacheck/success.jsp</result>
+		</action>
+		
+		
+		<action name="checkModules"
+			class="com.yancy.support.action.datacheck.CheckModulesAction">
+			<result name="success">/datacheck/success.jsp</result>
+		</action>
+		
+		<action name="checkAllModules"
+			class="com.yancy.support.action.datacheck.CheckAllModulesAction">
+			<result name="success">/datacheck/success.jsp</result>
+		</action>
+		
+		<action name="index"
+			class="com.yancy.support.action.datacheck.IndexAction">
+			<result name="success">/datacheck/index.jsp</result>
+		</action>
+
+	</package>
+</struts>
