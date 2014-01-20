@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	<!-- 加载C3P0.properties文件 -->
+	<context:property-placeholder location="classpath:C3P0.properties" ></context:property-placeholder>
+	<!-- 配置SessionFactory ：指定3部分参数,替代hibernate配置文件-->
+	<!-- 使用c3p0 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<!-- 配置连接数据库的基本参数 -->
+		<property name="jdbcUrl" value="${jdbc.url}"></property>
+		<property name="driverClass" value="${jdbc.driverClass}"></property>
+		<property name="user" value="${jdbc.userName}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="maxPoolSize" value="${maxPoolSize}"></property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${dialect}</prop>
+				<prop key="hibernate.show_sql">${ShowSql}</prop>
+				<prop key="hibernate.format_sql">${FormatSql}</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/yancy/support/pojo/AlertConditions.hbm.xml</value>
+				<value>com/yancy/support/pojo/AlertDetails.hbm.xml</value>
+				<value>com/yancy/support/pojo/AlertGroupMappings.hbm.xml</value>
+				<value>com/yancy/support/pojo/AlertRelations.hbm.xml</value>
+				<value>com/yancy/support/pojo/AlertRules.hbm.xml</value>
+				<value>com/yancy/support/pojo/Alerts.hbm.xml</value>
+				<value>com/yancy/support/pojo/Analytics.hbm.xml</value>
+				<value>com/yancy/support/pojo/BuzzAnalytics.hbm.xml</value>
+				<value>com/yancy/support/pojo/BuzzDashboards.hbm.xml</value>
+				<value>com/yancy/support/pojo/BuzzHotThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/BuzzReach.hbm.xml</value>
+				<value>com/yancy/support/pojo/BuzzTodayHotThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/BuzzTopics.hbm.xml</value>
+				<value>com/yancy/support/pojo/ChartTypes.hbm.xml</value>
+				<value>com/yancy/support/pojo/DailyThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/Dashboards.hbm.xml</value>
+				<value>com/yancy/support/pojo/Exports.hbm.xml</value>
+				<value>com/yancy/support/pojo/FacebookAnalytics.hbm.xml</value>
+				<value>com/yancy/support/pojo/FacebookDashboards.hbm.xml</value>
+				<value>com/yancy/support/pojo/FacebookDemographics.hbm.xml</value>
+				<value>com/yancy/support/pojo/FacebookHotThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/FacebookThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/FacebookThreadsStatus.hbm.xml</value>
+				<value>com/yancy/support/pojo/FacebookTopics.hbm.xml</value>
+				<value>com/yancy/support/pojo/HiveTweetsCommentsRepostsDay.hbm.xml</value>
+				<value>com/yancy/support/pojo/HotThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/HourlyAnalytics.hbm.xml</value>
+				<value>com/yancy/support/pojo/HourlyBuzzReach.hbm.xml</value>
+				<value>com/yancy/support/pojo/HourlyThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/KeywordBuzz.hbm.xml</value>
+				<value>com/yancy/support/pojo/ModuleCategories.hbm.xml</value>
+				<value>com/yancy/support/pojo/ModuleGroupMappings.hbm.xml</value>
+				<value>com/yancy/support/pojo/ModuleGroups.hbm.xml</value>
+				<value>com/yancy/support/pojo/Modules.hbm.xml</value>
+				<value>com/yancy/support/pojo/ModuleTopicMap.hbm.xml</value>
+				<value>com/yancy/support/pojo/NewModules.hbm.xml</value>
+				<value>com/yancy/support/pojo/ReportChartDefinitions.hbm.xml</value>
+				<value>com/yancy/support/pojo/ReportDefinitions.hbm.xml</value>
+				<value>com/yancy/support/pojo/Reports.hbm.xml</value>
+				<value>com/yancy/support/pojo/SchemaMigrations.hbm.xml</value>
+				<value>com/yancy/support/pojo/Sns.hbm.xml</value>
+				<value>com/yancy/support/pojo/SnsCollector.hbm.xml</value>
+				<value>com/yancy/support/pojo/SnsMessages.hbm.xml</value>
+				<value>com/yancy/support/pojo/Threads.hbm.xml</value>
+				<value>com/yancy/support/pojo/TodayHotThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/TodayThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/TopicDefinitions.hbm.xml</value>
+				<value>com/yancy/support/pojo/Topics.hbm.xml</value>
+				<value>com/yancy/support/pojo/UserMessageMappings.hbm.xml</value>
+				<value>com/yancy/support/pojo/UserModuleMap.hbm.xml</value>
+				<value>com/yancy/support/pojo/Users.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboAnalytics.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboBuzzOverTime.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboCuserFollowerTracker.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboDashboards.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboDefinitions.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboDemographics.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboFollowersStatus.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboHotThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboHourlyAnalytics.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboHourlyThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboKolCuserFollowers.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboKolCuserFollowersResults.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboKolInteraction.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboThreadsStatus.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboTodayThreads.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboTopicDefinitions.hbm.xml</value>
+				<value>com/yancy/support/pojo/WeiboTopics.hbm.xml</value>
+
+			</list>
+		</property>
+	</bean>
+
+
+	
+	<import resource="com/yancy/support/zspring/context/transaction.xml"/>
+	<import resource="com/yancy/support/zspring/context/dao.xml"></import>  
+	<import resource="com/yancy/support/zspring/context/service.xml"/>
+	<import resource="com/yancy/support/zspring/context/action.xml"/>  
+
+	
+</beans>
