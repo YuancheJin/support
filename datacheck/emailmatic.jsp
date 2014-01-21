@@ -28,7 +28,7 @@
           <a class="btn btn-primary" onclick="go()">
             <i class="icon-download-alt icon-white"></i> Send Email！
           </a><a class="btn" href="manual.jsp"><i class="icon-github"></i>Manual <small>check</small></a>
-          <a class="btn" href="autpmatic.jsp"><i class="icon-github"></i>File/All <small>check</small></a>
+          <a class="btn" href="automatic.jsp"><i class="icon-github"></i>File/All <small>check</small></a>
           <a class="btn" href="index.jsp"><i class="icon-github"></i>Go <small>home</small></a>
 
         </p>

@@ -73,7 +73,7 @@ body {
 									<span class="add-on"><i class="icon-user"></i>
 									</span>
 									<input autofocus class="input-large span10" name="email"
-										id="username" type="text" value="your name" />
+										id="username" type="text" value="wildfire" />
 								</div>
 								<div class="clearfix"></div>
 
