@@ -130,7 +130,7 @@
 	<bean id="SchedulerTaskTrigger3" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="SchedulerTask3" />
 		<property name="cronExpression">
-			<value>0 20 12 ? * *</value>
+			<value>0 00 08 ? * *</value>
 		</property>
 	</bean>
 

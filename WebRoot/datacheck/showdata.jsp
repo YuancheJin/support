@@ -23,28 +23,28 @@
                     <th data-toggle="true">
                         Scope
                     </th>
-                    <th>
+                    <th data-hide="phone">
                         Client
                     </th>
                     <th data-hide="phone,tablet">
                         Thread
                     </th>
-                    <th data-hide="phone,tablet" data-name="Date Of Birth">
-                        Solr
+                    <th data-hide="phone,tablet" data-name="Solr">
+        	             Solr
                     </th>
-                    <th data-hide="phone,tablet" data-name="Date Of Birth">
+                    <th data-hide="phone,tablet" data-name="OnlyN">
                         OnlyN
                     </th>
-                    <th data-hide="phone,tablet" data-name="Date Of Birth">
+                   <th data-hide="phone,tablet" data-name="RedShift">
                         RedShift
                     </th>
-                    <th data-hide="phone">
+                   <th data-hide="phone">
                         日期
                     </th>
-                     <th data-hide="phone">
+                    <th data-hide="phone" >
                         标记
                     </th>
-                    <th data-hide="phone">
+                    <th>
                         ErrorType
                     </th>
                 </tr>
