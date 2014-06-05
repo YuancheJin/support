@@ -48,7 +48,20 @@
                     <!-- 
                     <td><font color="#4F9D9D">${a.year}年${a.month }月${a.day}日</font></td>
                      -->
-                    <td><font color="#FF8000">${a.errorMessage}</font></td>
+                     <td>
+                     <s:iterator value="errorMessage" id="inner" var="c2">
+                     	<c:if test="${c2.id==1}">
+                     		<font color="#FF8000">${c2.errorMessage}</font>
+                     	</c:if>
+                     	<c:if test="${c2.id==2}">
+                     		<font color="#8C8C00">${c2.errorMessage}</font>
+                     	</c:if>
+                     	<br/>
+                     	<%-- <c:if test="${}">
+                     		<font color="#8C8C00">${c2.errorMessage}</font>
+                     	</c:if> --%>
+                     </s:iterator>
+                     </td>
                     
                    	<c:if test="${today==a.day}">
                     	<td data-value="1"><span class="status-metro status-active" title="Active">昨天</span></td>

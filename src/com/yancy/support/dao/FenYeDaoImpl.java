@@ -12,6 +12,7 @@ import org.apache.commons.validator.GenericValidator;
 import com.yancy.support.dao.jdbc.JDBC;
 import com.yancy.support.service.BrandService;
 import com.yancy.support.service.impl.BrandServiceImpl;
+import com.yancy.support.vo.ErrorMessage;
 import com.yancy.support.vo.ErrorType;
 import com.yancy.support.vo.HistoricalDataVo;
 
@@ -19,10 +20,30 @@ import com.yancy.support.vo.HistoricalDataVo;
 public class FenYeDaoImpl  {
 	public FenYeDaoImpl(){}
 
-
+	public  List<ErrorMessage>  getNewErrorMessage(String errormessage){
+		ArrayList<ErrorMessage> list=new ArrayList<ErrorMessage>();
+		String[] messageArray=errormessage.split(";");
+		for(String str:messageArray){
+			if(!"".equals(str)){
+				ErrorMessage errorMessage=new ErrorMessage();
+				if(str.equals("从未正常跑过")||str.equals("数据正在跑")||str.equals("跑数据出错")||str.equals("yesterday 为 X月X日")||str.equals("overview和analytics数据不一致")||str.equals("threads列表和analytics数据不一致")
+						||str.equals("RDS数据库连接超时")||str.equals("Solr连接请求超时")||str.equals("redshift连接请求超时")||str.equals("其他catch的异常")){
+					errorMessage.setId(1);
+					errorMessage.setErrorMessage(str);
+				}else{
+					errorMessage.setId(2);
+					errorMessage.setErrorMessage(str);
+				}
+				list.add(errorMessage);
+			}
+		}
+		
+		return list;
+	}
+	
 	public List<HistoricalDataVo> findHistoricalDate()throws Exception{
 		List values = new ArrayList();
-		StringBuffer sql=new StringBuffer("select * from t_historical_data where 1=1 ");
+		StringBuffer sql=new StringBuffer("select * from t_historical_data where 1=1 order by date desc ");
 		Connection connection=JDBC.getConnectionSupport();
 		ResultSet rs=JDBC.query(connection, sql.toString());
 		while (rs.next()) { // 判断是否还有下一个数据
@@ -44,7 +65,7 @@ public class FenYeDaoImpl  {
 			vo.setStatus(rs.getInt("status"));
 			vo.setThreadNum(rs.getInt("threadNum"));
 			vo.setType(rs.getString("type"));
-			vo.setErrorMessage(rs.getString("errormessage"));
+			vo.setErrorMessage(getNewErrorMessage(rs.getString("errormessage")));
 			vo.setCheckDate(rs.getTimestamp("checkdate"));
 			vo.setYear(rs.getInt("year"));
 			vo.setMonth(rs.getInt("month"));
@@ -75,7 +96,7 @@ public class FenYeDaoImpl  {
 		
 		
 		List values = new ArrayList();
-		StringBuffer sql=new StringBuffer("select * from t_historical_data where 1=1 ");
+		StringBuffer sql=new StringBuffer("select * from t_historical_data where 1=1 order by date desc");
 		if(!"".equals(scope)&&null!=scope)
 			sql.append("and scope='"+scope+"' ");
 		if(!"".equals(date)&&null!=date)
@@ -108,7 +129,7 @@ public class FenYeDaoImpl  {
 			vo.setStatus(rs.getInt("status"));
 			vo.setThreadNum(rs.getInt("threadNum"));
 			vo.setType(rs.getString("type"));
-			vo.setErrorMessage(rs.getString("errormessage"));
+			vo.setErrorMessage(getNewErrorMessage(rs.getString("errormessage")));
 			vo.setCheckDate(rs.getTimestamp("checkdate"));
 			vo.setYear(rs.getInt("year"));
 			vo.setMonth(rs.getInt("month"));

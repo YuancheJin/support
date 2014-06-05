@@ -60,11 +60,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 		int yeary=DateUtil.getTSDA(0)[0];
 		int monthm=DateUtil.getTSDA(0)[1];
 		int dayd=DateUtil.getTSDA(0)[2];
-		System.out.println("year="+yeary+" month="+monthm+" day="+dayd);
-		
-		Date before7Day=DateTest.getDate(dayd+"-"+monthm+"-"+yeary, 7);
+		System.out.println("year="+yeary+" month="+monthm+" day="+dayd);		
+		Date before30Day=DateTest.getDate(dayd+"-"+monthm+"-"+yeary, 30);
 		JDBC.delete(JDBC.getConnectionSupport(),
-				"delete from t_historical_data where date> '"+before7Day+"'");
+				"delete from t_historical_data where date> '"+before30Day+"'");
 		
 		//删除同一天已有的记录
 		int yearyy=DateUtil.getTSDA(1)[0];
@@ -96,11 +95,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 						.findJoinByEmail(userEmailArr[i]);
 				sum += moduleList.size();
 
-				for (Modules module : moduleList) {
-					System.out.println(module.getScope());
-				}
+		
 
 				for (Modules module : moduleList) {
+					System.out.println(module.getScope());
 					System.out.println("########## " + module.getScope()
 							+ " check start#######################");
 
@@ -111,6 +109,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 						
 						
 						if(arrayListC.contains(module.getScope())){
+							System.out.println("!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~scope 重复了");
+							System.out.println("!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~scope 重复了");
+							System.out.println("!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~scope 重复了");
+		
 							continue;
 						}else{
 							arrayListC.add(module.getScope());
@@ -147,7 +149,8 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 										DateUtil.getTSDA(1)[2]);
 							}
 						}catch(Exception e){
-							message.addErrorMessage("d,系统自身异常->solr/redshift数据获取失败(系统自身异常); ");
+							message.setSolrNum(-1);
+							message.addErrorMessage("Solr/RS连接请求超时;");
 							
 							dataerror_=false;
 						}
@@ -236,7 +239,8 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 									message.setSolrNum(solrNum);
 									message.setDynamoDbNum(dynamoDbNum);
 								}catch(Exception e){
-									message.addErrorMessage("d,系统自身异常->RDS数据获取失败(系统自身异常); ");
+									message.setSolrNum(-1);
+									message.addErrorMessage("RDS数据库连接超时;");
 									
 									dataerror=false;
 									
@@ -313,6 +317,13 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 								}
 
 								if (b1 && b2 && b3 && b4 && b5) {
+									
+//									System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ b1 is "+b1);
+//									System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ b2 is "+b1);
+//									System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ b3 is "+b1);
+//									System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ b4 is "+b1);
+//									System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ b5 is "+b1);
+									
 
 								} else {
 
@@ -474,7 +485,7 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 
 	public boolean checkTopic(Message message, StringBuffer messageStr,
 			Map<String, StringBuffer> messageMap) {
-		boolean result = false;
+		boolean result = true;
 		messageStr.append("Topic check： " + BREAK);
 		try {
 
@@ -482,7 +493,7 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 
 			String[] brandTopicSet = dailyThreadsDao
 					.findTopicFromDailyThreads(message.getModules().getScope());
-			System.out.println("######@@@@@@@@@@@@@@@@@@@  brand TOPIC IS "
+			System.out.println("  brand TOPIC IS "
 					+ Arrays.toString(brandTopicSet));
 
 			// 新修改,只判断当topic<=10时的情况
@@ -490,8 +501,9 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 			if (brandTopicSet.length <= 10) {
 				// Set set = SubString.exist(brandTopicSet, brandTopicSet);
 
-				message.addErrorMessage("c,数据变化大->topic<10(" + brandTopicSet.length
-						+ "); ");
+//				message.addErrorMessage("c,数据变化大->topic<10(" + brandTopicSet.length
+//						+ "); ");
+				message.addErrorMessage("topic个数少于10个(仅" + brandTopicSet.length+"个);");
 				// message.addErrorType("23");
 				myPrint("<font color='#6666FF'>" + "topic<10</font>" + BREAK,
 						messageMap, message);
@@ -536,7 +548,7 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 		Date nowDate = new Date();
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		if (time == null) {
-			message.addErrorMessage("a,跑数据错误->update_time为空; ");
+			message.addErrorMessage("从未正常跑过;");
 			// message.addErrorType("1");
 			myPrint("<font color='#6666FF'>" + "update_time为空:</font>" + BREAK,
 					messageMap, message);
@@ -545,7 +557,7 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 			return false;
 		}
 		if(!sf.format(date).equals(sf.format(nowDate))){
-			message.addErrorMessage("yesterday 为 "+date+"; ");
+			message.addErrorMessage("yesterday 为 "+date+";");
 			// message.addErrorType("1");
 			myPrint("<font color='#6666FF'>" + "yesterday 为 "+date+"; " + BREAK,
 					messageMap, message);
@@ -562,7 +574,7 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 				messageStr.append(BREAK);
 				return true;
 			} else if (message.getModules().getStatus() == 1) {
-				message.addErrorMessage("a,跑数据错误->数据正在跑; ");
+				message.addErrorMessage("数据正在跑;");
 				// message.addErrorType("2");
 				myPrint("<font color='#6666FF'>" + "数据正在跑:</font>" + BREAK,
 						messageMap, message);
@@ -570,7 +582,7 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 				messageStr.append(BREAK);
 				return false;
 			} else {
-				message.addErrorMessage("a,跑数据错误->跑数据出错; ");
+				message.addErrorMessage("跑数据出错;");
 				// message.addErrorType("3");
 				myPrint("<font color='#6666FF'>跑数据出错:</font>" + BREAK,
 						messageMap, message);
@@ -655,7 +667,7 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 		}
 		if (!bool) {
 
-			message.addErrorMessage("b,数据不一致->Overview的post数字没有更新; ");
+			message.addErrorMessage("overview没有更新;");
 			// message.addErrorType("19");
 			myPrint("<font color='#6666FF'>Overview的post数字没有更新:</font> "
 					+ BREAK, messageMap, message);
@@ -666,7 +678,7 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 
 		} else if (!boolSov) {
 
-			message.addErrorMessage("b,数据不一致->SOV超过100%; ");
+			message.addErrorMessage("SOV超过100%;");
 			// message.addErrorType("22");
 			myPrint("<font color='#6666FF'>SOV超过100%:</font> " + BREAK,
 					messageMap, message);
@@ -688,9 +700,20 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 								.getDataSection(message.getSolrNum()))
 								|| d.getThreads() > (message.getSolrNum() + ValidatorTool
 										.getDataSection(message.getSolrNum()))) {
-							message.addErrorMessage("Overview数据偏少(相差"
-									+ (d.getThreads() - message.getSolrNum())
-									+ "); ");
+//							message.addErrorMessage("Overview数据偏少(相差"
+//									+ (d.getThreads() - message.getSolrNum())
+//									+ "); ");
+							double x=0.0;
+							if(d.getThreads()>message.getSolrNum()){
+								x=(double)(message.getSolrNum()-d.getThreads())/d.getThreads();
+								
+								message.addErrorMessage("overview比solr中少 "+(int)(x*100)+"%;");
+							}else{
+								x=(double)(d.getThreads()-message.getSolrNum())/d.getThreads();
+								message.addErrorMessage("overview比solr中多 "+(int)(x*100)+"%;");
+							}
+							 
+							
 							// message.addErrorType("7");
 							myPrint("<font color='#6666FF'>Overview显示数据量偏少:</font> "
 									+ BREAK, messageMap, message);
@@ -713,9 +736,16 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 								.getDataSection(averageChange))
 								|| d.getThreads() > (averageChange + ValidatorTool
 										.getDataSection(averageChange))) {
-
-							message.addErrorMessage("c,数据变化大->Overview变化过高/低于平均值("
-									+ (d.getThreads() - averageChange) + "); ");
+							double x=0.0;
+							if(d.getThreads()>averageChange){
+								x=(double)(d.getThreads()-averageChange)/d.getThreads();
+								message.addErrorMessage("Overview高于平均值"+(int)(x*100)+"%");
+							}else{
+								x=(double)(averageChange-d.getThreads())/d.getThreads();
+								message.addErrorMessage("Overview低于平均值"+(int)(x*100)+"%");
+							}
+									
+							
 							// message.addErrorType("17");
 							myPrint("<font color='#6666FF'>Overview变化过高/低于平均值 :</font> "
 									+ BREAK, messageMap, message);
@@ -728,8 +758,16 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 								.getDataSection(sum))
 								|| d.getThreads() > (sum + ValidatorTool
 										.getDataSection(sum))) {
-							message.addErrorMessage("b,数据不一致->Overview数据偏少(抓微博数字相差"
-									+ (d.getThreads() - sum) + "); ");
+//							message.addErrorMessage("b,数据不一致->Overview数据偏少(抓微博数字相差"
+//									+ (d.getThreads() - sum) + "); ");
+							double x=0.0;
+							if(d.getThreads()>message.getSolrNum()){
+								x=(double)(sum-d.getThreads())/d.getThreads();
+								message.addErrorMessage("overview比solr+rs中少 "+(int)(x*100)+"%;");
+							}else{
+								x=(double)(d.getThreads()-sum)/d.getThreads();
+								message.addErrorMessage("overview比solr+rs中多 "+(int)(x*100)+"%;");
+							}
 							// message.addErrorType("8");
 							myPrint("<font color='#6666FF'>Overview显示数据量偏少(抓微博数字):</font> "
 									+ BREAK, messageMap, message);
@@ -756,8 +794,16 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 								|| d.getThreads() > (averageChange + ValidatorTool
 										.getDataSection(averageChange))) {
 
-							message.addErrorMessage("c,数据变化大->Overview变化过高/低于平均值("
-									+ (d.getThreads() - averageChange) + "); ");
+//							message.addErrorMessage("c,数据变化大->Overview变化过高/低于平均值("
+//									+ (d.getThreads() - averageChange) + "); ");
+							double x=0.0;
+							if(d.getThreads()>averageChange){
+								x=(double)(d.getThreads()-averageChange)/d.getThreads();
+								message.addErrorMessage("Overview高于平均值"+(int)(x*100)+"%");
+							}else{
+								x=(double)(averageChange-d.getThreads())/d.getThreads();
+								message.addErrorMessage("Overview低于平均值"+(int)(x*100)+"%");
+							}
 							// message.addErrorType("17");
 							myPrint("<font color='#6666FF'>Overview变化过高/低于平均值 :</font> "
 									+ BREAK, messageMap, message);
@@ -789,14 +835,16 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 		List<Analytics> list = message.getAnalyticsList();
 
 		boolean bool2 = false;
+//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@ DateUtil.getDay is "+DateUtil.getTSDA(1)[2]);
 		for (Analytics d : list) {
+//			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@ d.getDay() is "+d.getDay());
 			if (d.getDay() == DateUtil.getTSDA(1)[2]) {
 				bool2 = true;
 			}
 		}
 		if (!bool2) {
 
-			message.addErrorMessage("b,数据不一致->insight的yesterday为前1天; ");
+			message.addErrorMessage("insight没有更新;");
 			// message.addErrorType("20");
 			myPrint("<font color='#6666FF'>insight的yesterday显示的是再往前的1天 :</font> "
 					+ BREAK, messageMap, message);
@@ -819,9 +867,18 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 												.getSolrNum() + ValidatorTool
 												.getDataSection(message
 														.getSolrNum()))) {
-									message.addErrorMessage("b,数据不一致->Insight显示数据量偏少(相差"
-											+ (d.getThreads() - message
-													.getSolrNum()) + "); ");
+//									message.addErrorMessage("b,数据不一致->Insight显示数据量偏少(相差"
+//											+ (d.getThreads() - message
+//													.getSolrNum()) + "); ");
+									double x=0.0;
+									if(d.getThreads()>message.getSolrNum()){
+										x=(double)(message.getSolrNum()-d.getThreads())/d.getThreads();
+										message.addErrorMessage("analytics比solr中少 "+(int)(x*100)+"%;");
+									}else{
+										x=(double)(d.getThreads()-message.getSolrNum())/d.getThreads();
+										message.addErrorMessage("analytics比solr中多 "+(int)(x*100)+"%;");
+									}
+									
 									// message.addErrorType("14");
 									myPrint("<font color='#6666FF'>Insight显示数据量偏少:</font> "
 											+ BREAK, messageMap, message);
@@ -844,9 +901,17 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 										|| d.getThreads() > (anerageChange + ValidatorTool
 												.getDataSection(anerageChange))) {
 
-									message.addErrorMessage("c,数据变化大->Insight变化过高/低于平均值(相差"
-											+ (d.getThreads() - anerageChange)
-											+ "); ");
+//									message.addErrorMessage("c,数据变化大->Insight变化过高/低于平均值(相差"
+//											+ (d.getThreads() - anerageChange)
+//											+ "); ");
+									double x=0.0;
+									if(d.getThreads()>anerageChange){
+										x=(double)(d.getThreads()-anerageChange)/d.getThreads();
+										message.addErrorMessage("Insight高于平均值"+(int)(x*100)+"%");
+									}else{
+										x=(double)(anerageChange-d.getThreads())/d.getThreads();
+										message.addErrorMessage("Insight低于平均值"+(int)(x*100)+"%");
+									}
 
 									myPrint("<font color='#6666FF'>Insight变化过高/低于平均值 :</font> "
 											+ BREAK, messageMap, message);
@@ -855,15 +920,24 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 							}
 
 						} else { // -----临时修改!
-							if (d.getMedia().equals("weibo")) {
+							if (d.getMedia().equals("weibo")&&("42".equals(d.getSiteId()))) {
 								int sum = message.getSolrNum()
 										+ message.getDynamoDbNum();
 								if (d.getThreads() < (sum - ValidatorTool
 										.getDataSection(sum))
 										|| d.getThreads() > (sum + ValidatorTool
 												.getDataSection(sum))) {
-									message.addErrorMessage("b,数据不一致->Insight显示数据偏少(抓微博数字相差"
-											+ (d.getThreads() - sum) + "); ");
+//									message.addErrorMessage("b,数据不一致->Insight显示数据偏少(抓微博数字相差"
+//											+ (d.getThreads() - sum) + "); ");
+									double x=0.0;
+									if(d.getThreads()>sum){
+										x=(double)(sum-d.getThreads())/d.getThreads();
+										message.addErrorMessage("analytics比solr+rs中少 "+(int)(x*100)+"%;");
+									}else{
+										x=(double)(d.getThreads()-sum)/d.getThreads();
+										message.addErrorMessage("analytics比solr+rs中多 "+(int)(x*100)+"%;");
+									}
+									
 									// message.addErrorType("15");
 									myPrint("<font color='#6666FF'>Insight显示数据量偏少(抓微博数字):</font> "
 											+ BREAK, messageMap, message);
@@ -890,9 +964,19 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 										.getDataSection(anerageChange))
 										|| d.getThreads() > (anerageChange + ValidatorTool
 												.getDataSection(anerageChange))) {
-									message.addErrorMessage("c,数据变化大->Insight变化过高/低于平均值(相差"
-											+ (d.getThreads() - anerageChange)
-											+ "); ");
+									
+									
+//									message.addErrorMessage("c,数据变化大->Insight变化过高/低于平均值(相差"
+//											+ (d.getThreads() - anerageChange)
+//											+ "); ");
+									double x=0.0;
+									if(d.getThreads()>anerageChange){
+										x=(double)(d.getThreads()-anerageChange)/d.getThreads();
+										message.addErrorMessage("Insight高于平均值"+(int)(x*100)+"%");
+									}else{
+										x=(double)(anerageChange-d.getThreads())/d.getThreads();
+										message.addErrorMessage("Insight低于平均值"+(int)(x*100)+"%");
+									}
 									// message.addErrorType("18");
 									myPrint("<font color='#6666FF'>Insight变化过高/低于平均值 :</font> "
 											+ BREAK, messageMap, message);
@@ -916,7 +1000,7 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 
 	public boolean checkDashboardAnalytics(Message message,
 			StringBuffer messageStr, Map<String, StringBuffer> messageMap) {
-		boolean result = false;
+		boolean result = true;
 		messageStr.append("曲线图上的数字和overview的post数字check： " + BREAK);
 		// List<Analytics> analyticsList=message.getAnalyticsList();
 		List<Dashboards> dashboardsList = message.getDashboardsList();
@@ -981,19 +1065,28 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 					"select * from t_historical_data where scope='"
 							+ message.getModules().getScope() + "'");
 
-			if (rs.next()) {
+			while (rs.next()) {
+				if(rs.getInt("solrNum")==-1){
+					continue;
+				}
 				count++;
-				threadCount += rs.getInt("threadNum");
+				if(message.getModules().getOnlynum()){
+					threadCount += (rs.getInt("solrNum")+rs.getInt("dynamoNum"));
+				}else{
+					threadCount += (rs.getInt("solrNum"));
+				}
+				
 			}
 			connection.close();
 			if(count==0){
 				if (message.getModules().getOnlynum()) {
-					sum = new Long(message.getThreads()
+					sum = new Long(message.getSolrNum()
 							+ message.getDynamoDbNum()).intValue();
 				} else {
-					sum = new Long(message.getThreads()).intValue();
+					sum = new Long(message.getSolrNum()).intValue();
 				}
-			}else{
+			}
+			else{
 				sum = (threadCount) / count;
 			}
 			return sum;

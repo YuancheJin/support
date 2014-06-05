@@ -1,6 +1,7 @@
 package com.yancy.support.vo;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class HistoricalDataVo {
 
@@ -18,7 +19,7 @@ public class HistoricalDataVo {
 	private int status;
 	private int rerun;//
 	private int ok;//
-	private String errorMessage;//
+	
 	private Timestamp checkDate;
 	private String errorTypeId;
 	private boolean ase=true;
@@ -29,6 +30,8 @@ public class HistoricalDataVo {
 	private int day;
 	
 	private double needTime;
+	
+	private List<ErrorMessage> errorMessage;//
 	
 	
 	
@@ -89,12 +92,6 @@ public class HistoricalDataVo {
 	}
 	public void setPageIndex(int pageIndex) {
 		this.pageIndex = pageIndex;
-	}
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
 	}
 	public int getId() {
 		return id;
@@ -173,6 +170,12 @@ public class HistoricalDataVo {
 	}
 	public void setOk(int ok) {
 		this.ok = ok;
+	}
+	public List<ErrorMessage> getErrorMessage() {
+		return errorMessage;
+	}
+	public void setErrorMessage(List<ErrorMessage> errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 	
 	

@@ -57,10 +57,13 @@ public class TestAction extends BaseAction {
 		ArrayList<String> arrayListC=new ArrayList<String>();
 		arrayListC.add("asd");
 		arrayListC.add("dfasd");
-		if(arrayListC.contains("asd")){
+		if(arrayListC.contains("asd1")){
 			System.out.println(1);;
 		}else{
 			System.out.println(2);;
 		}
 	}
+//	public static void main(String[] args){
+//		
+//	}
 }
