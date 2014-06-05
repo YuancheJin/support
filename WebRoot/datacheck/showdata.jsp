@@ -21,48 +21,34 @@
                 <thead>
                 <tr>
                     <th data-toggle="true">
-                        Scope
+                        Module
                     </th>
                     <th data-hide="phone">
-                        Client
+                        Update时间
                     </th>
                     <th data-hide="phone,tablet">
-                        Thread
+                        验证时间
                     </th>
                     <th data-hide="phone,tablet" data-name="Solr">
-        	             Solr
+        	             错误
                     </th>
-                    <th data-hide="phone,tablet" data-name="OnlyN">
-                        OnlyN
-                    </th>
-                   <th data-hide="phone,tablet" data-name="RedShift">
-                        RedShift
-                    </th>
-                   <th data-hide="phone">
-                        日期
-                    </th>
+
                     <th data-hide="phone" >
                         标记
                     </th>
-                    <th>
-                        ErrorType
-                    </th>
+
                 </tr>
                 </thead>
                 <tbody>
                 <s:iterator value="page.result" var="a">
                 <tr>
                     <td><a href="getScope.action?moduleName=${a.scope} target="_blank">${a.scope}</a></td>
-                    <td><font color="#5B00AE">${a.parent}</font></td>
-                    <td><font color="#4F9D9D">${a.threadNum}</font></td>
-                    <td><font color="#FF8000">${a.solrNum}</font></td>
-                    <td><font color="#FF79BC">${a.onlynum}</font></td>
-                    <td><font color="#000093">${a.dynamoNum}</font></td>
-                      
-                    <td>${a.year}年${a.month }月${a.day}日</td>
-                    <!--
-                    <td data-value="78025368997">${a.checkDate}</td>
-                    -->
+                    <td><font color="#5B00AE">${a.date}</font></td>
+                    <td><font color="#4F9D9D">${a.checkDate}</font></td>
+                    <!-- 
+                    <td><font color="#4F9D9D">${a.year}年${a.month }月${a.day}日</font></td>
+                     -->
+                    <td><font color="#FF8000">${a.errorMessage}</font></td>
                     
                    	<c:if test="${today==a.day}">
                     	<td data-value="1"><span class="status-metro status-active" title="Active">昨天</span></td>
@@ -75,7 +61,7 @@
                     </c:if>
                    
                     
-                     <td><font color="#FF0000">${a.errorMessage}</font></td>
+           
                 </tr>
                 </s:iterator>
                 

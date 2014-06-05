@@ -544,7 +544,17 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 			messageStr.append(BREAK);
 			return false;
 		}
-		if (sf.format(date).equals(sf.format(nowDate))) {
+		if(!sf.format(date).equals(sf.format(nowDate))){
+			message.addErrorMessage("yesterday 为 "+date+"; ");
+			// message.addErrorType("1");
+			myPrint("<font color='#6666FF'>" + "yesterday 为 "+date+"; " + BREAK,
+					messageMap, message);
+			messageStr.append("<font color='#339999'>yesterday 为 "+date+"; </font>");
+			messageStr.append(BREAK);
+			return false;
+		}else
+//		if (sf.format(date).equals(sf.format(nowDate))) 
+		{
 			if (message.getModules().getStatus() == 0) {
 
 				messageStr
@@ -575,40 +585,41 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 				messageStr.append("</font>" + BREAK);
 				return false;
 			}
-		} else {
-			// 判断status
-			if (message.getModules().getStatus() == 0) {
-				message.addErrorMessage("a,跑数据错误->过去时间数据未跑; ");
-				// message.addErrorType("4");
-				myPrint("<font color='#6666FF'>在过去的时间数据没有跑:</font>" + BREAK,
-						messageMap, message);
-				messageStr.append("<font color='#FF0000'>在过去的时间("
-						+ message.getModules().getUpdatedTime()
-						+ ") 数据没有跑！</font>");
-				messageStr.append(BREAK);
-				return false;
-			} else if (message.getModules().getStatus() == 1) {
-				message.addErrorMessage("a,跑数据错误->过去的时间数据未跑完; ");
-				// message.addErrorType("5");
-				myPrint("<font color='#6666FF'>在过去的时间数据没有跑完:</font>" + BREAK,
-						messageMap, message);
-				messageStr.append("<font color='#FF0000'>在过去的时间("
-						+ message.getModules().getUpdatedTime()
-						+ ") 数据没有跑完！</font>");
-				messageStr.append(BREAK);
-				return false;
-			} else {
-				message.addErrorMessage("a,跑数据错误->过去时间跑数据出错; ");
-				// message.addErrorType("6");
-				myPrint("<font color='#6666FF'>在过去的时间跑数据出错:</font>" + BREAK,
-						messageMap, message);
-				messageStr.append("<font color='#FF0000'>在过去的时间("
-						+ message.getModules().getUpdatedTime()
-						+ ") 跑数据出错！</font>");
-				messageStr.append(BREAK);
-				return false;
-			}
-		}
+		} 
+//		else {
+//			// 判断status
+//			if (message.getModules().getStatus() == 0) {
+//				message.addErrorMessage("a,跑数据错误->过去时间数据未跑; ");
+//				// message.addErrorType("4");
+//				myPrint("<font color='#6666FF'>在过去的时间数据没有跑:</font>" + BREAK,
+//						messageMap, message);
+//				messageStr.append("<font color='#FF0000'>在过去的时间("
+//						+ message.getModules().getUpdatedTime()
+//						+ ") 数据没有跑！</font>");
+//				messageStr.append(BREAK);
+//				return false;
+//			} else if (message.getModules().getStatus() == 1) {
+//				message.addErrorMessage("a,跑数据错误->过去的时间数据未跑完; ");
+//				// message.addErrorType("5");
+//				myPrint("<font color='#6666FF'>在过去的时间数据没有跑完:</font>" + BREAK,
+//						messageMap, message);
+//				messageStr.append("<font color='#FF0000'>在过去的时间("
+//						+ message.getModules().getUpdatedTime()
+//						+ ") 数据没有跑完！</font>");
+//				messageStr.append(BREAK);
+//				return false;
+//			} else {
+//				message.addErrorMessage("a,跑数据错误->过去时间跑数据出错; ");
+//				// message.addErrorType("6");
+//				myPrint("<font color='#6666FF'>在过去的时间跑数据出错:</font>" + BREAK,
+//						messageMap, message);
+//				messageStr.append("<font color='#FF0000'>在过去的时间("
+//						+ message.getModules().getUpdatedTime()
+//						+ ") 跑数据出错！</font>");
+//				messageStr.append(BREAK);
+//				return false;
+//			}
+//		}
 
 	}
 
@@ -677,7 +688,7 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 								.getDataSection(message.getSolrNum()))
 								|| d.getThreads() > (message.getSolrNum() + ValidatorTool
 										.getDataSection(message.getSolrNum()))) {
-							message.addErrorMessage("b,数据不一致->Overview数据偏少(相差"
+							message.addErrorMessage("Overview数据偏少(相差"
 									+ (d.getThreads() - message.getSolrNum())
 									+ "); ");
 							// message.addErrorType("7");
