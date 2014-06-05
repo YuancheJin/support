@@ -10,8 +10,10 @@
                 <select class="filter-status">
                 	<option></option>
                     <option>Ππ</option>
-                    <option >Ξξ</option>
-                  
+                    <option>Ξξ</option>
+                    <option>RDS数据库连接超时</option>
+                    <!-- <option >数据变化大</option>
+                    <option >系统自身异常</option> -->
                 </select>
                 <a href="#clear" class="clear-filter" title="clear filter">[clear]</a>
                 <span class="row-count"></span>
@@ -41,7 +43,7 @@
                 <tbody>
                 <s:iterator value="page.result" var="a">
                 <tr>
-                    <td><a href="getScope.action?moduleName=${a.scope} target="_blank">${a.scope}</a></td>
+                    <td><a href="getScope.action?moduleName=${a.scope}" target="view_window">${a.scope}</a></td>
                     <td><font color="#5B00AE">${a.date}</font></td>
                     <td><font color="#4F9D9D">${a.checkDate}</font></td>
                     <!-- 

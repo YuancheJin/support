@@ -2483,3 +2483,62 @@ Log session start time Mon Apr 21 23:39:15 CST 2014<br>
 <td title="org.hibernate.util.JDBCExceptionReporter category">org.hibernate.util.JDBCExceptionReporter</td>
 <td title="Message">automatic test table 'users' contains rows, and it should not! Please set this parameter to the name of a table c3p0 can create on its own, that is not used elsewhere in the database!</td>
 </tr>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Log4J Log Messages</title>
+<style type="text/css">
+<!--
+body, table {font-family: arial,sans-serif; font-size: x-small;}
+th {background: #336699; color: #FFFFFF; text-align: left;}
+-->
+</style>
+</head>
+<body bgcolor="#FFFFFF" topmargin="6" leftmargin="6">
+<hr size="1" noshade>
+Log session start time Fri Jun 06 01:13:44 CST 2014<br>
+<br>
+<table cellspacing="0" cellpadding="4" border="1" bordercolor="#224466" width="100%">
+<tr>
+<th>Time</th>
+<th>Thread</th>
+<th>Level</th>
+<th>Category</th>
+<th>Message</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td title="main thread">main</td>
+<td title="Level"><font color="#993300"><strong>ERROR</strong></font></td>
+<td title="org.apache.struts2.dispatcher.Dispatcher category">org.apache.struts2.dispatcher.Dispatcher</td>
+<td title="Message">Dispatcher initialization failed</td>
+</tr>
+<tr><td bgcolor="#993300" style="color:White; font-size : xx-small;" colspan="6">Unable to load configuration. - bean - jar:file:/Users/apple/Work/Java_app/support/WebRoot/WEB-INF/lib/struts2-core-2.2.1.1.jar!/struts-default.xml:29:72
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at com.opensymphony.xwork2.config.ConfigurationManager.getConfiguration(ConfigurationManager.java:69)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.apache.struts2.dispatcher.Dispatcher.init_PreloadConfiguration(Dispatcher.java:371)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.apache.struts2.dispatcher.Dispatcher.init(Dispatcher.java:415)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.apache.struts2.dispatcher.ng.InitOperations.initDispatcher(InitOperations.java:69)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.init(StrutsPrepareAndExecuteFilter.java:51)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.mortbay.jetty.servlet.FilterHolder.doStart(FilterHolder.java:97)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.mortbay.jetty.servlet.ServletHandler.initialize(ServletHandler.java:713)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.mortbay.jetty.servlet.Context.startContext(Context.java:140)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.mortbay.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1282)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.mortbay.jetty.handler.ContextHandler.doStart(ContextHandler.java:518)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:499)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.mortbay.jetty.Server.doStart(Server.java:224)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at runjettyrun.Bootstrap.main(Bootstrap.java:97)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;Caused by: Unable to load bean: type: class:com.opensymphony.xwork2.ObjectFactory - bean - jar:file:/Users/apple/Work/Java_app/support/WebRoot/WEB-INF/lib/struts2-core-2.2.1.1.jar!/struts-default.xml:29:72
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at com.opensymphony.xwork2.config.providers.XmlConfigurationProvider.register(XmlConfigurationProvider.java:232)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at org.apache.struts2.config.StrutsXmlConfigurationProvider.register(StrutsXmlConfigurationProvider.java:101)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at com.opensymphony.xwork2.config.impl.DefaultConfiguration.reloadContainer(DefaultConfiguration.java:180)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at com.opensymphony.xwork2.config.ConfigurationManager.getConfiguration(ConfigurationManager.java:66)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	... 16 more
+<br>&nbsp;&nbsp;&nbsp;&nbsp;Caused by: Bean type class com.opensymphony.xwork2.ObjectFactory with the name xwork has already been loaded by bean - jar:file:/Users/apple/Work/Java_app/support/WebRoot/WEB-INF/lib/struts2/struts2-core-2.2.1.1.jar!/struts-default.xml:29:72 - bean - jar:file:/Users/apple/Work/Java_app/support/WebRoot/WEB-INF/lib/struts2-core-2.2.1.1.jar!/struts-default.xml:29:72
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	at com.opensymphony.xwork2.config.providers.XmlConfigurationProvider.register(XmlConfigurationProvider.java:216)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;	... 19 more
+</td></tr>
