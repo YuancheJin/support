@@ -744,10 +744,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 							double x=0.0;
 							if(d.getThreads()>averageChange){
 								x=(double)(d.getThreads()-averageChange)/d.getThreads();
-								message.addErrorMessage("ΞξOverview高于平均值"+(int)(x*100)+"%");
+								message.addErrorMessage("ΞξOverview高于平均值"+(int)(x*100)+"%;");
 							}else{
 								x=(double)(averageChange-d.getThreads())/d.getThreads();
-								message.addErrorMessage("ΞξOverview低于平均值"+(int)(x*100)+"%");
+								message.addErrorMessage("ΞξOverview低于平均值"+(int)(x*100)+"%;");
 							}
 									
 							
@@ -804,10 +804,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 							double x=0.0;
 							if(d.getThreads()>averageChange){
 								x=(double)(d.getThreads()-averageChange)/d.getThreads();
-								message.addErrorMessage("ΞξOverview高于平均值"+(int)(x*100)+"%");
+								message.addErrorMessage("ΞξOverview高于平均值"+(int)(x*100)+"%;");
 							}else{
 								x=(double)(averageChange-d.getThreads())/d.getThreads();
-								message.addErrorMessage("ΞξOverview低于平均值"+(int)(x*100)+"%");
+								message.addErrorMessage("ΞξOverview低于平均值"+(int)(x*100)+"%;");
 							}
 							// message.addErrorType("17");
 							myPrint("<font color='#6666FF'>Overview变化过高/低于平均值 :</font> "
@@ -912,10 +912,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 									double x=0.0;
 									if(d.getThreads()>anerageChange){
 										x=(double)(d.getThreads()-anerageChange)/d.getThreads();
-										message.addErrorMessage("ΞξInsight高于平均值"+(int)(x*100)+"%");
+										message.addErrorMessage("ΞξInsight高于平均值"+(int)(x*100)+"%;");
 									}else{
 										x=(double)(anerageChange-d.getThreads())/d.getThreads();
-										message.addErrorMessage("ΞξInsight低于平均值"+(int)(x*100)+"%");
+										message.addErrorMessage("ΞξInsight低于平均值"+(int)(x*100)+"%;");
 									}
 
 									myPrint("<font color='#6666FF'>Insight变化过高/低于平均值 :</font> "
@@ -977,10 +977,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 									double x=0.0;
 									if(d.getThreads()>anerageChange){
 										x=(double)(d.getThreads()-anerageChange)/d.getThreads();
-										message.addErrorMessage("ΞξInsight高于平均值"+(int)(x*100)+"%");
+										message.addErrorMessage("ΞξInsight高于平均值"+(int)(x*100)+"%;");
 									}else{
 										x=(double)(anerageChange-d.getThreads())/d.getThreads();
-										message.addErrorMessage("ΞξInsight低于平均值"+(int)(x*100)+"%");
+										message.addErrorMessage("ΞξInsight低于平均值"+(int)(x*100)+"%;");
 									}
 									// message.addErrorType("18");
 									myPrint("<font color='#6666FF'>Insight变化过高/低于平均值 :</font> "

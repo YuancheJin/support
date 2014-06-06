@@ -41,7 +41,7 @@
                 <tbody>
                 <s:iterator value="page.result" var="a">
                 <tr>
-                    <td><a href="getScope.action?moduleName=${a.scope} target="_blank">${a.scope}</a></td>
+                    <td><a href="getScope.action?moduleName=${a.scope}" target="_blank">${a.scope}</a></td>
                     <td><font color="#5B00AE">${a.date}</font></td>
                     <td><font color="#4F9D9D">${a.checkDate}</font></td>
                     <!-- 

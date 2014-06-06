@@ -26,8 +26,8 @@ public class FenYeDaoImpl  {
 		for(String str:messageArray){
 			if(!"".equals(str)){
 				ErrorMessage errorMessage=new ErrorMessage();
-				if(str.equals("从未正常跑过")||str.equals("数据正在跑")||str.equals("跑数据出错")||str.equals("yesterday 为 X月X日")||str.equals("overview和analytics数据不一致")||str.equals("threads列表和analytics数据不一致")
-						||str.equals("RDS数据库连接超时")||str.equals("Solr连接请求超时")||str.equals("redshift连接请求超时")||str.equals("其他catch的异常")){
+				if(str.equals("Ππ从未正常跑过")||str.equals("Ππ数据正在跑")||str.equals("Ππ跑数据出错")||str.equals("Ππyesterday 为 X月X日")||str.equals("Ππoverview和analytics数据不一致")||str.equals("Ππthreads列表和analytics数据不一致")
+						||str.equals("ΠπSolr/RS连接请求超时")||str.equals("Ππredshift连接请求超时")||str.equals("Ππ其他catch的异常")){
 					errorMessage.setId(1);
 					errorMessage.setErrorMessage(str);
 				}else{
