@@ -113,10 +113,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 							System.out.println("!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~scope 重复了");
 							System.out.println("!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~scope 重复了");
 							
-							JDBC.delete(JDBC.getConnectionSupport(),
-									"delete from t_historical_data where scope='"+module.getScope()+"' year="+yearyy+" and month="+monthmm+" and day="+daydd);
+//							JDBC.delete(JDBC.getConnectionSupport(),
+//									"delete from t_historical_data where scope='"+module.getScope()+"' year="+yearyy+" and month="+monthmm+" and day="+daydd);
 							
-//							continue;
+							continue;
 						}else{
 							arrayListC.add(module.getScope());
 						}
