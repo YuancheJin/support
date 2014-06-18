@@ -60,10 +60,18 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 		int yeary=DateUtil.getTSDA(0)[0];
 		int monthm=DateUtil.getTSDA(0)[1];
 		int dayd=DateUtil.getTSDA(0)[2];
-		System.out.println("year="+yeary+" month="+monthm+" day="+dayd);		
+		System.out.println("year="+yeary+" month="+monthm+" day="+dayd);	
+		//删除30天前的数据
 		Date before30Day=DateTest.getDate(dayd+"-"+monthm+"-"+yeary, 30);
 		JDBC.delete(JDBC.getConnectionSupport(),
 				"delete from t_historical_data where date> '"+before30Day+"'");
+		
+		//如果当月日期为1号,便删除之前的数据
+//		if(dayd==1){
+//			JDBC.delete(JDBC.getConnectionSupport(),
+//					"delete from t_historical_data");
+//		}
+		
 		
 		//删除同一天已有的记录
 		int yearyy=DateUtil.getTSDA(1)[0];
@@ -747,10 +755,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 							double x=0.0;
 							if(d.getThreads()>averageChange){
 								x=(double)(d.getThreads()-averageChange)/d.getThreads();
-								message.addErrorMessage("ΞξOverview高于平均值"+(int)(x*100)+"%;");
+								message.addErrorMessage("Ξξoverview高于平均值"+(int)(x*100)+"%;");
 							}else{
 								x=(double)(averageChange-d.getThreads())/d.getThreads();
-								message.addErrorMessage("ΞξOverview低于平均值"+(int)(x*100)+"%;");
+								message.addErrorMessage("Ξξoverview低于平均值"+(int)(x*100)+"%;");
 							}
 									
 							
@@ -807,10 +815,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 							double x=0.0;
 							if(d.getThreads()>averageChange){
 								x=(double)(d.getThreads()-averageChange)/d.getThreads();
-								message.addErrorMessage("ΞξOverview高于平均值"+(int)(x*100)+"%;");
+								message.addErrorMessage("Ξξoverview高于平均值"+(int)(x*100)+"%;");
 							}else{
 								x=(double)(averageChange-d.getThreads())/d.getThreads();
-								message.addErrorMessage("ΞξOverview低于平均值"+(int)(x*100)+"%;");
+								message.addErrorMessage("Ξξoverview低于平均值"+(int)(x*100)+"%;");
 							}
 							// message.addErrorType("17");
 							myPrint("<font color='#6666FF'>Overview变化过高/低于平均值 :</font> "
@@ -915,10 +923,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 									double x=0.0;
 									if(d.getThreads()>anerageChange){
 										x=(double)(d.getThreads()-anerageChange)/d.getThreads();
-										message.addErrorMessage("ΞξInsight高于平均值"+(int)(x*100)+"%;");
+										message.addErrorMessage("Ξξinsight高于平均值"+(int)(x*100)+"%;");
 									}else{
 										x=(double)(anerageChange-d.getThreads())/d.getThreads();
-										message.addErrorMessage("ΞξInsight低于平均值"+(int)(x*100)+"%;");
+										message.addErrorMessage("Ξξinsight低于平均值"+(int)(x*100)+"%;");
 									}
 
 									myPrint("<font color='#6666FF'>Insight变化过高/低于平均值 :</font> "
@@ -980,10 +988,10 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 									double x=0.0;
 									if(d.getThreads()>anerageChange){
 										x=(double)(d.getThreads()-anerageChange)/d.getThreads();
-										message.addErrorMessage("ΞξInsight高于平均值"+(int)(x*100)+"%;");
+										message.addErrorMessage("Ξξinsight高于平均值"+(int)(x*100)+"%;");
 									}else{
 										x=(double)(anerageChange-d.getThreads())/d.getThreads();
-										message.addErrorMessage("ΞξInsight低于平均值"+(int)(x*100)+"%;");
+										message.addErrorMessage("Ξξinsight低于平均值"+(int)(x*100)+"%;");
 									}
 									// message.addErrorType("18");
 									myPrint("<font color='#6666FF'>Insight变化过高/低于平均值 :</font> "
@@ -1178,7 +1186,5 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 	public void startCheckModules(String modulesNames, String email,
 			String scope) throws Exception {
 		// TODO Auto-generated method stub
-
 	}
-
 }

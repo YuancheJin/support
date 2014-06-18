@@ -15,7 +15,9 @@
 	type="text/css" />
 <link href="css/footable-demos.css" rel="stylesheet" type="text/css" />
 
-<script src="js/jquery.min.js" type="text/javascript"></script>
+<!-- <script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+	type="text/javascript"></script> -->
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
@@ -36,20 +38,15 @@
 	$(function() {
 		$("#demo").load("historicalData.action", {});
 	});
-	$(function() {	
+
+	$(function() {
+		$("#setup").load("chart.action", {});
+	});
+	$(function() {
 		$("#sqs").load("sqs.action", {});
-		setInterval(function() {
-    		$("#sqs").load("sqs.action", {});
-		}, 60000);
-		
 	});
 </script>
-<style>
-.a{width:721px;}
-.adleft{ float:left;width:50%; padding:5px;}
-.adright{float:right;width:48%;padding:5px;}
-.adright2{float:right;width:48%; border:0px solid #333;	padding:5px;}
-</style>
+
 </head>
 <body>
 	<div class="demo-container">
@@ -57,27 +54,23 @@
 		<div class="alert">
 			dailycheck 2.0 (beta) ---> <a href="index.action">原版</a>
 		</div>
-	
+		<!-- <ul class="nav nav-tabs">
+        <li class="active"><a href="#demo">详细</a></li>
+        <li><a href="#setup">图表</a></li>
+    </ul> -->
 		<div class="tab-content">
 
-			<div class="adleft" id="demo">
+			<!-- <div class="tab-pane active" id="sqs" style="">
 				<img src="../images/window_loading.gif" alt="" />
 			</div>
 			
-			<div class="adright2 alert" id="sqs">
+			<div class="tab-pane active" id="setup">
+				<img src="../images/window_loading.gif" alt="" />
+			</div> -->
+			<br />
+			<div class="tab-pane active" id="demo">
 				<img src="../images/window_loading.gif" alt="" />
 			</div>
-
-			
-			<div class="adright" id="chart"></div>
-				
-		
-
-		
-			
-
-			
-
 
 
 
@@ -85,61 +78,5 @@
 	</div>
 
 </body>
-<script type="text/javascript">
-	var dateTmp;
-	var sum;
-	(function($) {
-		var dateTmp = "";
-		var sum = "";
-		$.post("/support/datacheck/historicalChart.action",
-				function(root) {
-					dateTmp = new Array(root.length);
-					sum = new Array(root.length);
 
-					for ( var i = 0; i < root.length; i++) {
-						dateTmp[i] = root[i].date;
-						sum[i] = root[i].sum;
-					}
-					/* alert(dateTmp);
-					alert(sum); */
-					$('#chart').highcharts({
-						credits : {
-							enabled : false
-						},
-						chart : {
-							type : 'spline',
-							backgroundColor : '#eee',
-							reflow : true
-						},
-						title : {
-							text : '最近30天错误量',
-							x : -20
-						//center
-						},
-						xAxis : {
-							categories : dateTmp
-						},
-						yAxis : {
-							title : {
-								text : 'Error Num'
-							},
-							plotLines : [ {
-								value : 0,
-								width : 1,
-								color : '#808080'
-							} ]
-						},
-						tooltip : {
-							valueSuffix : ''
-						},
-						series : [ {
-							name : 'Error Num:',
-
-							data : sum
-						} ]
-					});
-				});
-
-	})(jQuery);
-</script>
 </html>

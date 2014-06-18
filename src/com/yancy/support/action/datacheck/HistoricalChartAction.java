@@ -37,44 +37,32 @@ public class HistoricalChartAction extends BaseAction {
 			chartData.setSum(sum);
 			list.add(chartData);
 		}
+		
 		connection.close();
 		
-		for(ChartData data: list){
-			System.out.println(data.getDate());
-			System.out.println(data.getSum());
-		}
+//		for(ChartData data: list){
+//			System.out.println(data.getDate());
+//			System.out.println(data.getSum());
+//		}
 		
 		return Action.SUCCESS;
 	}
-
-
 	public List<ChartData> getList() {
 		return list;
 	}
-
 	public void setList(List<ChartData> list) {
 		this.list = list;
 	}
-
-
 	public boolean isOk() {
 		return ok;
 	}
-
-
 	public void setOk(boolean ok) {
 		this.ok = ok;
 	}
-
-
 	public Map<String, Integer> getMap() {
 		return map;
 	}
-
-
 	public void setMap(Map<String, Integer> map) {
 		this.map = map;
 	}
-	
-	
 }

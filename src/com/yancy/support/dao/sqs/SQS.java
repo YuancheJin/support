@@ -1,5 +1,6 @@
 package com.yancy.support.dao.sqs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,18 +12,26 @@ import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClient;
 import com.amazonaws.services.sqs.model.CreateQueueRequest;
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
+import com.amazonaws.services.sqs.model.GetQueueAttributesRequest;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
 import com.yancy.support.pojo.Modules;
 
 public class SQS {
-	
-	public static void main(String[] args){
-		
-		//pushTo("actsocial_queue","nivea");
-		pushTo("test","qwe");
+
+	public static void main(String[] args) {
+
+		// pushTo("actsocial_queue","nivea");
+		// getCount("actsocial_hourly_queue");
+		// getCount("run_buzz_range_day");
+		pushTo("test","qwe1");
+		pushTo("test","qwe2");
+		pushTo("test","qwe3");
+		pushTo("test","qwe4");
+		getCount("test");
 	}
+
 	public enum Name {
 		ACTSOCIAL_QUEUE, ACTSOCIAL_QUEUE_5, TOPIC_DATA_QUEUE, THREAD_DATA_QUEUE, BUZZ_QUEUE, INSTANCE_QUEUE, ACTSOCIAL_HOURLY_QUEUE, INDEX_POSTS_QUEUE, RERUN_ERROR_DATA_BY_DAILY;
 		public String value() {
@@ -81,6 +90,30 @@ public class SQS {
 		return null;
 	}
 
+	// 拿到每个队列中的 数字
+	public static int getCount(String name) {
+		try {
+			String queueUrl = getConnection().createQueue(
+					new CreateQueueRequest(name)).getQueueUrl();
+
+			
+	        List<String> attributeNames = new ArrayList<String>();
+	        attributeNames.add("All");
+
+	        // list the attributes of the queue we are interested in
+	        GetQueueAttributesRequest request = new GetQueueAttributesRequest(queueUrl);
+	        request.setAttributeNames(attributeNames);
+	        Map<String, String> attributes = sqs.getQueueAttributes(request).getAttributes();
+	        int messages = Integer.parseInt(attributes.get("ApproximateNumberOfMessages"));
+	        //System.out.println("Messages in the queue: " + messages);
+	        return messages;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
 	public static boolean pushTo(String name, String message) {
 		try {
 			String queueUrl = getConnection().createQueue(
@@ -100,7 +133,6 @@ public class SQS {
 	public static boolean pushTo(Name name, String message) {
 		return pushTo(name.value(), message);
 	}
-
 	/**
 	 * modify : send to sns-crawler if onlynum = true
 	 * 

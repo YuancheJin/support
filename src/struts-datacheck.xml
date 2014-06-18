@@ -105,12 +105,22 @@
 		
 		<action name="historicalChart"
 			class="com.yancy.support.action.datacheck.HistoricalChartAction">
+			
+			<!-- 
 			<result name="success">/datacheck/showchart.jsp</result>
-	
-			<!-- <result type="json">
+			 -->
+			 <result type="json">
 				<param name="root">list</param>
-			</result> -->
-
+			</result> 
+		</action>
+		
+		<action name="chart"
+			class="com.yancy.support.action.datacheck.ChartAction">
+			<result name="success">/datacheck/showchart.jsp</result>
+		</action>
+		<action name="sqs"
+			class="com.yancy.support.action.datacheck.SqsAction">
+			<result name="success">/datacheck/showsqs.jsp</result>
 		</action>
 		
 		

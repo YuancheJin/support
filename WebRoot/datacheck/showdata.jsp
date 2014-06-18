@@ -11,6 +11,16 @@
                 	<option></option>
                     <option>Ππ</option>
                     <option >Ξξ</option>
+                    <option >从未正常跑过</option>
+                    <option >数据正在跑</option>
+                    <option >跑数据出错</option>
+                    <option >overview</option>
+                    <option >analytics</option>
+                    <option >topic</option>
+                    <option >insight</option>
+                    <option >SOV</option>
+                    <option >超时</option>
+                    <option >yesterday</option>
                   
                 </select>
                 <a href="#clear" class="clear-filter" title="clear filter">[clear]</a>
@@ -22,16 +32,15 @@
                     <th data-toggle="true">
                         Module
                     </th>
-                    <th data-hide="phone">
+                    <th data-hide="phone" data-name="错误">
+        	             错误
+                    </th>
+                    <th data-hide="phone,tablet">
                         Update时间
                     </th>
                     <th data-hide="phone,tablet">
                         验证时间
                     </th>
-                    <th data-hide="phone,tablet" data-name="Solr">
-        	             错误
-                    </th>
-
                     <th data-hide="phone" >
                         标记
                     </th>
@@ -42,11 +51,6 @@
                 <s:iterator value="page.result" var="a">
                 <tr>
                     <td><a href="getScope.action?moduleName=${a.scope}" target="_blank">${a.scope}</a></td>
-                    <td><font color="#5B00AE">${a.date}</font></td>
-                    <td><font color="#4F9D9D">${a.checkDate}</font></td>
-                    <!-- 
-                    <td><font color="#4F9D9D">${a.year}年${a.month }月${a.day}日</font></td>
-                     -->
                      <td>
                      <s:iterator value="errorMessage" id="inner" var="c2">
                      	<c:if test="${c2.id==1}">
@@ -62,11 +66,17 @@
                      </s:iterator>
                      </td>
                     
+                    <td><font color="#4F9D9D">${a.checkDate}</font></td>
+                    <!-- 
+                    <td><font color="#4F9D9D">${a.year}年${a.month }月${a.day}日</font></td>
+                     -->
+                    <td><font color="#5B00AE">${a.date}</font></td>
+                    
                    	<c:if test="${today==a.day}">
                     	<td data-value="1"><span class="status-metro status-active" title="Active">昨天</span></td>
                     </c:if>
                     <c:if test="${today==(a.day+1)}">
-                    	<td data-value="1"><span class="status-metro status-disabled" title="Active">	前天</span></td>
+                    	<td data-value="1"><span class="status-metro status-disabled" title="Active">前天</span></td>
                     </c:if>
                     <c:if test="${today>(a.day+1)}">
                     	<td data-value="1"><span class="status-metro status-suspended" title="Suspended">更久</span></td>

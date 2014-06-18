@@ -3,9 +3,12 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@  taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-
 <div id="chart" style="margin: 0 auto"></div>
-
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+	type="text/javascript"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript">
 	var dateTmp ;
 	var sum;

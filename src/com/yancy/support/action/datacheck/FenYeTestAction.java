@@ -44,6 +44,7 @@ public class FenYeTestAction extends BaseAction {
 		
 		page=fenYeServiceImpl.findHistoricalData_();
 		
+		System.out.println("data action!");
 		return Action.SUCCESS;
 	}
 
