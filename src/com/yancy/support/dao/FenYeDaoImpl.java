@@ -5,15 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.validator.GenericValidator;
-
 import com.yancy.support.dao.jdbc.JDBC;
-import com.yancy.support.service.BrandService;
-import com.yancy.support.service.impl.BrandServiceImpl;
+import com.yancy.support.util.DateTest;
+import com.yancy.support.util.DateUtil;
 import com.yancy.support.vo.ErrorMessage;
-import com.yancy.support.vo.ErrorType;
 import com.yancy.support.vo.HistoricalDataVo;
 
 
@@ -42,8 +40,16 @@ public class FenYeDaoImpl  {
 	}
 	
 	public List<HistoricalDataVo> findHistoricalDate()throws Exception{
+		
+		int yeary=DateUtil.getTSDA(0)[0];
+		int monthm=DateUtil.getTSDA(0)[1];
+		int dayd=DateUtil.getTSDA(0)[2];
+		System.out.println("year="+yeary+" month="+monthm+" day="+dayd);	
+		//删除30天前的数据
+		Date before3Day=DateTest.getDate(dayd+"-"+monthm+"-"+yeary, 3);
+		
 		List values = new ArrayList();
-		StringBuffer sql=new StringBuffer("select * from t_historical_data where 1=1 order by date desc ");
+		StringBuffer sql=new StringBuffer("select * from t_historical_data where date>='"+before3Day+"' order by date desc ");
 		Connection connection=JDBC.getConnectionSupport();
 		ResultSet rs=JDBC.query(connection, sql.toString());
 		while (rs.next()) { // 判断是否还有下一个数据
