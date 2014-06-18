@@ -20,10 +20,31 @@ public class HistoricalChartAction extends BaseAction {
 	private boolean ok=false;
 	private List<ChartData> list=new ArrayList<ChartData>();
 	private Map<String,Integer> map=new HashMap<String,Integer>();
+	public static void main(String[] args) throws Exception{
+		
+		for(int i=3;i<=17;i++){
+			Connection connection=JDBC.getConnectionSupport();
+			String sql_="select id from (select id from t_historical_data where year=2014 and month=6 and day="+i+" group by scope having count(scope)>1 ) as a";
+			ResultSet rs_=JDBC.query(connection, sql_);
+			while(rs_.next()){
+				int id=rs_.getInt("id");
+				String sql_2="delete from t_historical_data where id="+id;
+				Connection connection_=JDBC.getConnectionSupport();
+				JDBC.delete(connection_,sql_2);
+				connection_.close();
+			}
+		}
+		
+		
+	}
 	public String execute() throws Exception{
 		
-		StringBuffer sql=new StringBuffer("select count(*) sum ,year,month,day from t_historical_data where 1=1 group by year+month+day");
 		Connection connection=JDBC.getConnectionSupport();
+		
+		
+		
+		StringBuffer sql=new StringBuffer("select count(*) sum ,year,month,day from t_historical_data where 1=1 group by year+month+day");
+		
 		ResultSet rs=JDBC.query(connection, sql.toString());
 //		List<ChartData> list=new ArrayList<ChartData>();
 		while (rs.next()) {
@@ -36,6 +57,8 @@ public class HistoricalChartAction extends BaseAction {
 			chartData.setDate(year+"."+month+"."+day);
 			chartData.setSum(sum);
 			list.add(chartData);
+			
+			
 		}
 		
 		connection.close();

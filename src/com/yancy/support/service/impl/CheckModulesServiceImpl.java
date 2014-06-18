@@ -57,14 +57,19 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 		
 		//判断是否重复
 		ArrayList<String> arrayListC=new ArrayList<String>();
-		int yeary=DateUtil.getTSDA(0)[0];
-		int monthm=DateUtil.getTSDA(0)[1];
-		int dayd=DateUtil.getTSDA(0)[2];
-		System.out.println("year="+yeary+" month="+monthm+" day="+dayd);	
-		//删除30天前的数据
-		Date before30Day=DateTest.getDate(dayd+"-"+monthm+"-"+yeary, 30);
+//		int yeary=DateUtil.getTSDA(0)[0];
+//		int monthm=DateUtil.getTSDA(0)[1];
+//		int dayd=DateUtil.getTSDA(0)[2];
+//		System.out.println("year="+yeary+" month="+monthm+" day="+dayd);	
+//		//删除30天前的数据
+//		Date before30Day=DateTest.getDate(monthm+"-"+dayd+"-"+yeary, 30);
+		int yeary=DateUtil.getTSDA(30)[0];
+		int monthm=DateUtil.getTSDA(30)[1];
+		int dayd=DateUtil.getTSDA(30)[2];
+		String time=yeary+"-"+monthm+"-"+dayd+" 00:00:00";
+		System.out.println(time);
 		JDBC.delete(JDBC.getConnectionSupport(),
-				"delete from t_historical_data where date> '"+before30Day+"'");
+				"delete from t_historical_data where date< '"+time+"'");
 		
 		//如果当月日期为1号,便删除之前的数据
 //		if(dayd==1){
@@ -103,7 +108,6 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 						.findJoinByEmail(userEmailArr[i]);
 				sum += moduleList.size();
 
-		
 
 				for (Modules module : moduleList) {
 					System.out.println(module.getScope());
@@ -319,16 +323,26 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 															.getName()
 													+ "</font>");
 								} else {
-
+									
 									b5 = checkTopic(message, messageStr,
 											messageMap);
-									b2 = checkDashboard(message, messageStr,
-											messageMap);
-									b3 = checkAnalytics(message, messageStr,
-											messageMap);
-
-									b4 = checkDashboardAnalytics(message,
-											messageStr, messageMap);
+									if(b5){
+										b2 = checkDashboard(message, messageStr,
+												messageMap);
+										if(b2){
+											b3 = checkAnalytics(message, messageStr,
+													messageMap);
+										}
+									}
+									
+//									b2 = checkDashboard(message, messageStr,
+//											messageMap);
+//									b3 = checkAnalytics(message, messageStr,
+//											messageMap);
+									
+									
+//									b4 = checkDashboardAnalytics(message,
+//											messageStr, messageMap);
 								}
 
 								if (b1 && b2 && b3 && b4 && b5) {
@@ -473,7 +487,29 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 				} catch (Exception e) {
 
 				}
+				
+				
+				
+				
+				int yy=DateUtil.getTSDA(1)[0];
+				int mm=DateUtil.getTSDA(1)[1];
+				int dd=DateUtil.getTSDA(1)[2];
+				
+				Connection connection=JDBC.getConnectionSupport();
+				String sql_="select id from (select id from t_historical_data where year="+yy+" and month="+mm+" and day="+dd+" group by scope having count(scope)>1 ) as a";
+				ResultSet rs_=JDBC.query(connection, sql_);
+				while(rs_.next()){
+					int id=rs_.getInt("id");
+					String sql_2="delete from t_historical_data where id="+id;
+					Connection connection_=JDBC.getConnectionSupport();
+					JDBC.delete(connection_,sql_2);
+					connection_.close();
+				}
+				
 
+				
+				
+				
 				// new MySendMail().startSent(email,fileName);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -512,9 +548,9 @@ public class CheckModulesServiceImpl implements CheckModulesService {
 			System.out.println("  brand TOPIC IS "
 					+ Arrays.toString(brandTopicSet));
 
-			// 新修改,只判断当topic<=10时的情况
+			// 新修改,只判断当topic<=10时的情况  加判断 solr个数.
 			// if (brandTopicSet.length > 0 && brandTopicSet.length <= 10) {
-			if (brandTopicSet.length < 10) {
+			if (brandTopicSet.length < 10&&(message.getSolrNum()>10)) {
 				// Set set = SubString.exist(brandTopicSet, brandTopicSet);
 
 //				message.addErrorMessage("c,数据变化大->topic<10(" + brandTopicSet.length

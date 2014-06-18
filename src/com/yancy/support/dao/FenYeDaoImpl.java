@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,18 +39,39 @@ public class FenYeDaoImpl  {
 		
 		return list;
 	}
-	
+	public static void main(String[] args) throws Exception{
+		int yeary=DateUtil.getTSDA(3)[0];
+		int monthm=DateUtil.getTSDA(3)[1];
+		int dayd=DateUtil.getTSDA(3)[2];
+		String time=yeary+"-"+monthm+"-"+dayd+" 00:00:00";
+		System.out.println(time);
+		List values = new ArrayList();
+		StringBuffer sql=new StringBuffer("select * from t_historical_data where date>='"+time+"' order by date desc ");
+		Connection connection=JDBC.getConnectionSupport();
+		ResultSet rs=JDBC.query(connection, sql.toString());
+		int x=0;
+		while(rs.next()){
+			x++;
+		}
+//		System.out.println(before3Day);
+		System.out.println(x);
+	}
 	public List<HistoricalDataVo> findHistoricalDate()throws Exception{
 		
-		int yeary=DateUtil.getTSDA(0)[0];
-		int monthm=DateUtil.getTSDA(0)[1];
-		int dayd=DateUtil.getTSDA(0)[2];
-		System.out.println("year="+yeary+" month="+monthm+" day="+dayd);	
-		//删除30天前的数据
-		Date before3Day=DateTest.getDate(dayd+"-"+monthm+"-"+yeary, 3);
+//		int yeary=DateUtil.getTSDA(0)[0];
+//		int monthm=DateUtil.getTSDA(0)[1];
+//		int dayd=DateUtil.getTSDA(0)[2];
+//		System.out.println("year="+yeary+" month="+monthm+" day="+dayd);	
+//		//删除30天前的数据
+//		Date before3Day=DateTest.getDate(dayd+"-"+monthm+"-"+yeary,3);
+		int yeary=DateUtil.getTSDA(3)[0];
+		int monthm=DateUtil.getTSDA(3)[1];
+		int dayd=DateUtil.getTSDA(3)[2];
+		String time=yeary+"-"+monthm+"-"+dayd+" 00:00:00";
+		System.out.println(time);
 		
 		List values = new ArrayList();
-		StringBuffer sql=new StringBuffer("select * from t_historical_data where date>='"+before3Day+"' order by date desc ");
+		StringBuffer sql=new StringBuffer("select * from t_historical_data where date>='"+time+"' order by date desc ");
 		Connection connection=JDBC.getConnectionSupport();
 		ResultSet rs=JDBC.query(connection, sql.toString());
 		while (rs.next()) { // 判断是否还有下一个数据

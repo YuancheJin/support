@@ -27,9 +27,9 @@ public class OrderNoRefact extends QuartzJobBean {
 		
 		System.out.println("成功触发 : ");
 		Properties prop = new Properties();
-		InputStream in = CheckModulesByUserEmailAction.class.getResourceAsStream("/time.properties");
+//		InputStream in = CheckModulesByUserEmailAction.class.getResourceAsStream("/time.properties");
 		try {
-			prop.load(in);
+//			prop.load(in);
 //			String modulesNames = prop.getProperty("wildfire_email");
 //			String emails = prop.getProperty("user_email");
 			
