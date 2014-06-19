@@ -18,7 +18,7 @@ public class ValidatorTool {
 	/**
 	 *调整容错率
 	 */
-	public static double x=0.3;//百分比调整
+	public static double x=0.4;//百分比调整
 	
 	public static int getDataSection(int num){
 		
