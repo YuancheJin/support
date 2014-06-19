@@ -38,7 +38,7 @@
 	<tbody>
 
 
-		<tr>
+<!-- 		<tr>
 			<td data-value="1">-</td>
 			<td data-value="1">-</td>
 
@@ -50,7 +50,7 @@
 
 
 
-		</tr>
+		</tr> -->
 
 
 		<s:iterator value="page.result" var="a">
